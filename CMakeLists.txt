@@ -5,7 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_library(${PROJECT_NAME} src/sequential_acceleration_calculation.cpp)
+add_library(${PROJECT_NAME}
+        src/sequential_acceleration_calculation.cpp
+        src/openmp_acceleration_calculation.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include/)
 # A CMake pattern to have headers that are not seen by the client of this library.
@@ -23,3 +25,9 @@ else ()
     # lots of warnings and all warnings as errors
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 endif ()
+
+# External libraries
+# OpenMP
+find_package(OpenMP REQUIRED)
+
+target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)

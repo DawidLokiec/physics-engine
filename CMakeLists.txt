@@ -9,6 +9,7 @@ add_library(${PROJECT_NAME}
         src/sequential_acceleration_calculation.cpp
         src/openmp_acceleration_calculation.cpp
         src/opencl_acceleration_calculation.cpp
+        src/acceleration_calculation_factory.cpp
         src/openmp_euler_position_velocity_calculation.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include/)

@@ -7,12 +7,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(${PROJECT_NAME}
         src/sequential_acceleration_calculation.cpp
-        src/openmp_acceleration_calculation.cpp)
+        src/openmp_acceleration_calculation.cpp src/opencl_acceleration_calculation.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include/)
 # A CMake pattern to have headers that are not seen by the client of this library.
 # So headers which not have to be visible for client-code should be placed in src/
 target_include_directories(${PROJECT_NAME} PRIVATE src ${CMAKE_CURRENT_BINARY_DIR})
+
+set(RESOURCES_FOLDER_PATH "${CMAKE_CURRENT_SOURCE_DIR}/res/")
+configure_file(config.h.in config.h @ONLY)
 
 if (MSVC)
     # PRIVATE specifies that the specified compile options are only for the ${PROJECT_NAME} itself,
@@ -26,8 +29,12 @@ else ()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 endif ()
 
+# Add modules
+add_subdirectory(lib/cpp-commons)
+add_subdirectory(lib/opencl-toolkit)
+
 # External libraries
 # OpenMP
 find_package(OpenMP REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX)
+target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX cpp-commons opencl-toolkit)

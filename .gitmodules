@@ -1,0 +1,6 @@
+[submodule "lib/opencl-toolkit"]
+	path = lib/opencl-toolkit
+	url = https://github.com/DawidLokiec/opencl-toolkit
+[submodule ".\\lib\\cpp-commons"]
+	path = .\\lib\\cpp-commons
+	url = https://github.com/DawidLokiec/cpp-commons

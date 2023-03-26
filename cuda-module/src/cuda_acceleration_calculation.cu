@@ -1,5 +1,5 @@
 #include "cudamodule/cuda_acceleration_calculation.h"
-#include "cudamodule/physics/astronomical_algorithms.h"
+#include "physics/astronomical_algorithms.h"
 
 #include "cudatoolkit/gpu_facade.cuh"
 #include "cudatoolkit/gpu_code_utilities.cuh"

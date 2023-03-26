@@ -19,4 +19,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 # Add modules
 add_subdirectory(lib/cuda-toolkit)
 
-target_link_libraries(${PROJECT_NAME} cuda-toolkit)
+target_link_libraries(${PROJECT_NAME} cuda-toolkit physics-engine)

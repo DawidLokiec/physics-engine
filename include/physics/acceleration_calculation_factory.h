@@ -26,7 +26,12 @@ namespace physics {
 		/**
 		 * The constant to specify the <strong>OpenCL-accelerated</strong> implementation of the acceleration calculation.
 		 */
-		OPEN_CL
+		OPEN_CL,
+
+		/**
+ 		 * The constant to specify the <strong>CUDA-accelerated</strong> implementation of the acceleration calculation.
+ 		 */
+		CUDA
 	};
 
 	/**

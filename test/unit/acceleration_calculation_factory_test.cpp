@@ -6,6 +6,7 @@
 #include "../../src/sequential_acceleration_calculation.h"
 #include "../../src/openmp_acceleration_calculation.h"
 #include "../../src/opencl_acceleration_calculation.h"
+#include "../../cuda-module/include/cudamodule/cuda_acceleration_calculation.h"
 
 using namespace physics;
 
@@ -49,6 +50,18 @@ TEST(AccelerationCalculationFactoryTest, ShouldCreateOpenCLAcclerationImplementa
 
 	// Test
 	assertReturnedTypeOfImplementationIs<OpenClAccelerationCalculationImpl>(pAccelerationCalculation);
+
+	// Clean up
+	delete pAccelerationCalculation;
+}
+
+TEST(AccelerationCalculationFactoryTest, ShouldCreateCUDAAcclerationImplementation) {
+	// Stimulation
+	const IAccelerationCalculation *const pAccelerationCalculation =
+			createAccelerationCalculation(AccelerationCalculationImplementation::CUDA);
+
+	// Test
+	assertReturnedTypeOfImplementationIs<CudaAccelerationCalculationImpl>(pAccelerationCalculation);
 
 	// Clean up
 	delete pAccelerationCalculation;

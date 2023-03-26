@@ -4,3 +4,6 @@
 [submodule ".\\lib\\cpp-commons"]
 	path = .\\lib\\cpp-commons
 	url = https://github.com/DawidLokiec/cpp-commons
+[submodule "cuda-module/lib/cuda-toolkit"]
+	path = cuda-module/lib/cuda-toolkit
+	url = https://github.com/DawidLokiec/cuda-toolkit

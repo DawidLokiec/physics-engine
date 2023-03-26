@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.26.1)
-project(physics-engine LANGUAGES CXX VERSION 1.0.0)
+project(physics-engine LANGUAGES CXX CUDA VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CUDA_STANDARD 20)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
 add_library(${PROJECT_NAME}
         src/sequential_acceleration_calculation.cpp
@@ -17,6 +19,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC include/)
 # A CMake pattern to have headers that are not seen by the client of this library.
 # So headers which not have to be visible for client-code should be placed in src/
 target_include_directories(${PROJECT_NAME} PRIVATE src ${CMAKE_CURRENT_BINARY_DIR})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
 set(RESOURCES_FOLDER_PATH "${CMAKE_CURRENT_SOURCE_DIR}/res/")
 configure_file(config.h.in config.h @ONLY)
@@ -36,12 +40,13 @@ endif ()
 # Add modules
 add_subdirectory(lib/cpp-commons)
 add_subdirectory(lib/opencl-toolkit)
+add_subdirectory(cuda-module)
 
 # External libraries
 # OpenMP
 find_package(OpenMP REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX cpp-commons opencl-toolkit)
+target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX cpp-commons opencl-toolkit cuda-module)
 
 # Test environment
 enable_testing()
@@ -62,9 +67,10 @@ add_executable(${PROJECT_NAME}-unit-tests
         test/unit/sequential_acceleration_calculation_test.cpp
         test/unit/openmp_acceleration_calculation_test.cpp
         test/unit/opencl_acceleration_calculation_test.cpp
+        test/unit/cuda_acceleration_calculation_test.cpp
         )
 
-target_link_libraries(${PROJECT_NAME}-unit-tests gtest_main ${PROJECT_NAME} cpp-commons)
+target_link_libraries(${PROJECT_NAME}-unit-tests gtest_main ${PROJECT_NAME} cpp-commons cuda-module)
 
 # Performance tests
 add_executable(${PROJECT_NAME}-performance-test
@@ -74,4 +80,4 @@ add_executable(${PROJECT_NAME}-performance-test
         test/performance/openmp_acceleration_calculation_test.cpp
         test/performance/opencl_acceleration_calculation_test.cpp)
 
-target_link_libraries(${PROJECT_NAME}-performance-test gtest_main ${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME}-performance-test gtest_main ${PROJECT_NAME} cuda-module)

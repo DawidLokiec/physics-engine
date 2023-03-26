@@ -65,3 +65,13 @@ add_executable(${PROJECT_NAME}-unit-tests
         )
 
 target_link_libraries(${PROJECT_NAME}-unit-tests gtest_main ${PROJECT_NAME} cpp-commons)
+
+# Performance tests
+add_executable(${PROJECT_NAME}-performance-test
+        test/performance/performance_tests_framework.cpp
+        test/performance/bodies_test.cpp
+        test/performance/sequential_acceleration_calculation_test.cpp
+        test/performance/openmp_acceleration_calculation_test.cpp
+        test/performance/opencl_acceleration_calculation_test.cpp)
+
+target_link_libraries(${PROJECT_NAME}-performance-test gtest_main ${PROJECT_NAME})

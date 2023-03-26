@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.26.1)
-project(physics_engine LANGUAGES CXX VERSION 1.0.0)
+project(physics-engine LANGUAGES CXX VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -42,3 +42,26 @@ add_subdirectory(lib/opencl-toolkit)
 find_package(OpenMP REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} OpenMP::OpenMP_CXX cpp-commons opencl-toolkit)
+
+# Test environment
+enable_testing()
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG v1.13.0
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+# Unit tests as an executable of this library
+add_executable(${PROJECT_NAME}-unit-tests
+        test/unit/bodies_test.cpp
+        test/unit/acceleration_calculation_factory_test.cpp
+        test/unit/sequential_acceleration_calculation_test.cpp
+        test/unit/openmp_acceleration_calculation_test.cpp
+        test/unit/opencl_acceleration_calculation_test.cpp
+        )
+
+target_link_libraries(${PROJECT_NAME}-unit-tests gtest_main ${PROJECT_NAME} cpp-commons)

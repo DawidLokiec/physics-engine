@@ -8,7 +8,7 @@
 
 using namespace physics;
 
-IAccelerationCalculation *createAccelerationCalculation(const AccelerationCalculationImplementation &implementation) {
+IAccelerationCalculation *physics::createAccelerationCalculation(const AccelerationCalculationImplementation &implementation) {
 	switch (implementation) {
 		case AccelerationCalculationImplementation::SEQUENTIAL:
 			return new SequentialAccelerationCalculationImpl();
